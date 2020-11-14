@@ -5,7 +5,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import "./App.scss";
 import LogoCDINPY from "./assets/logo-cdinpy.png";
 import LogoJica from "./assets/logo-jica.png";
-import LogoAsociacion from "./assets/logo asociación.png";
+import LogoAsociacion from "./assets/logo-asociacion.png";
 
 function sleep(ms) {
   return new Promise((res) => {
