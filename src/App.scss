@@ -6,7 +6,17 @@
   right: 0;
   width: 400px;
   height: 100%;
-  background-image: url(./background.png);
+  background-image: url(./assets/background.png);
+  background-repeat: no-repeat;
+}
+
+#backgroundArt2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  height: 500px;
+  background-image: url(./assets/background-2.png);
   background-repeat: no-repeat;
 }
 
@@ -26,18 +36,19 @@
   z-index: 99;
   position: absolute;
   height: 200px;
-  height: 200px;
-  bottom: 0;
-  left: 0;
+  width: 400px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   right: 0;
-  background-color: gray;
+  bottom: 140px;
+  opacity: 0.9;
+  background-color: #e21e12;
 
   .controls {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    opacity: 1;
+    width: 20%;
     font-size: 8em;
   }
 }

@@ -7066,7 +7066,7 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-kodi-websocket@^2.4.300:
+"kodi-websocket@git@github.com:kennym/kodi-ws.git":
   version "2.4.300"
   resolved "https://registry.yarnpkg.com/kodi-websocket/-/kodi-websocket-2.4.300.tgz#8945567512b8c5996fb9fc9cc75f65d415e1d330"
   integrity sha512-tqTGKC68Vs+gXEHwhBCNQndf0nHDbpuaHkwiyRXXRjKS56AW3OAE5amixZ/P4FfmPpZAYxMq4w/CClqwTEhavw==

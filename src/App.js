@@ -9,6 +9,8 @@ import LogoCDINPY from "./assets/logo-cdinpy.png";
 import LogoJica from "./assets/logo-jica.png";
 import LogoAsociacion from "./assets/logo-asociacion.png";
 
+const HOST = "192.168.1.109";
+
 function sleep(ms) {
   return new Promise((res) => {
     setTimeout(function () {
@@ -19,10 +21,10 @@ function sleep(ms) {
 
 /* Utility function to stop all active players of a kodi instance */
 const PlayerControls = ({
-  onClose,
   playerStatus,
   playPausePlayer,
   stopPlayer,
+  activateScreensaver,
 }) => {
   return (
     <div className="playerControls">
@@ -31,7 +33,7 @@ const PlayerControls = ({
           <FontAwesomeIcon
             icon={faPlay}
             color="whlte"
-            className="mr-4"
+            className="mr-5"
             onClick={playPausePlayer}
           />
         )}
@@ -39,7 +41,7 @@ const PlayerControls = ({
           <FontAwesomeIcon
             icon={faPause}
             color="white"
-            className="mr-4"
+            className="mr-5"
             onClick={playPausePlayer}
           />
         )}
@@ -47,8 +49,10 @@ const PlayerControls = ({
           <FontAwesomeIcon
             icon={faStop}
             color="white"
-            className="mr-4"
-            onClick={stopPlayer}
+            onClick={async () => {
+              await stopPlayer();
+              await activateScreensaver();
+            }}
           />
         )}
       </div>
@@ -58,12 +62,21 @@ const PlayerControls = ({
 
 function App() {
   const [currentMenu, setCurrentMenu] = useState(null);
-  const [connection, setConnection] = useState(null);
   const [controlsVisible, setControlsVisible] = useState(false);
   const [playerStatus, setPlayerStatus] = useState(null);
 
+  const activateScreensaver = async () => {
+    await playSlideshow("/storage/pictures/screensaver/");
+
+    // const con = await kodi(HOST, 9090);
+    // const players = await con.Player.GetActivePlayers();
+    // await Promise.all(
+    //   players.map((player) => con.GUI.ActivateWindow({ window: "screensaver" }))
+    // );
+  };
+
   const initializeConnection = useCallback(async () => {
-    const con = await kodi("192.168.1.109", 9090);
+    const con = await kodi(HOST, 9090);
 
     con.notification("Player.OnPause", () => {
       setControlsVisible(true);
@@ -86,12 +99,20 @@ function App() {
       console.log("OnStop");
       setPlayerStatus("stopped");
       setControlsVisible(false);
+      sleep(5000);
     });
 
-    setConnection(con);
+    con.socket.addEventListener("error", () => {
+      console.log("error");
+    });
+
+    con.socket.addEventListener("close", () => {
+      console.log("close");
+    });
   }, []);
 
-  const stopAllActivePlayers = async (con) => {
+  const stopAllActivePlayers = async () => {
+    const con = await kodi(HOST, 9090);
     const players = await con.Player.GetActivePlayers();
 
     await Promise.all(
@@ -100,54 +121,54 @@ function App() {
   };
 
   const playSlideshow = async (folderName) => {
-    await stopAllActivePlayers(connection);
+    await stopAllActivePlayers();
+    const con = await kodi(HOST, 9090);
 
-    await connection.Player.Open({
+    await con.Player.Open({
       item: { directory: folderName },
+    });
+    await con.Player.Open({
+      item: { directory: "/storage/music/screensaver" },
     });
   };
 
   const playPausePlayer = async () => {
-    const players = await connection.Player.GetActivePlayers();
+    const con = await kodi(HOST, 9090);
+    const players = await con.Player.GetActivePlayers();
 
     await Promise.all(
-      players.map((player) => connection.Player.PlayPause(player.playerid))
+      players.map((player) => con.Player.PlayPause(player.playerid))
     );
   };
 
   const stopPlayer = async () => {
-    const players = await connection.Player.GetActivePlayers();
+    const con = await kodi(HOST, 9090);
+    const players = await con.Player.GetActivePlayers();
 
     await Promise.all(
-      players.map((player) => connection.Player.Stop(player.playerid))
+      players.map((player) => con.Player.Stop(player.playerid))
     );
   };
 
-  const playDemo = useCallback(async () => {
+  const playChapter = async (chapter) => {
     /* Stop all players, then start the video */
-    await stopAllActivePlayers(connection);
+    await stopAllActivePlayers();
 
-    const movies = await connection.Files.GetDirectory({
-      directory: "/storage/videos/",
+    const con = await kodi(HOST, 9090);
+    const movies = await con.Files.GetDirectory({
+      directory: `/storage/videos/${chapter}`,
       media: "video",
     });
 
-    // console.log("movies", movies);
-    // console.log("file", movies?.files?.[0]?.file);
-
-    await connection.Player.Open({
+    await con.Player.Open({
       item: { file: movies?.files?.[0]?.file },
     });
-
-    /* Stop the video after 20 seconds */
-    // await sleep(20000);
-    // await stopAllActivePlayers(connection);
-  }, []);
+  };
 
   const MENU_INMIGRACION = [
     {
       name: "📹 Documental",
-      action: () => playDemo(),
+      action: () => playChapter("01"),
     },
     {
       name: "🖼 Galería de Fotos",
@@ -166,36 +187,30 @@ function App() {
     },
     {
       name: "Kouresha Shakai",
-      action: () => playDemo(),
+      action: () => playChapter("02"),
     },
     {
       name: "Lenguaje Nikkei",
-      action: () => playDemo(),
+      action: () => playChapter("03"),
     },
     {
       name: "Nihongogakko",
-      action: () => playDemo(),
+      action: () => playChapter("04"),
     },
     {
       name: "Música Nikkei",
-      action: () => playDemo(),
+      action: () => playChapter("05"),
     },
     {
       name: "Taiko - Yosakoi",
-      action: () => playDemo(),
+      action: () => playChapter("06"),
     },
   ];
-
-  useEffect(() => {
-    console.log("connection changed", connection);
-  }, [connection]);
 
   useEffect(() => {
     setCurrentMenu(MAIN_MENU);
     initializeConnection();
   }, []);
-
-  if (!connection || connection?.closed) return null;
 
   return (
     <>
@@ -208,14 +223,6 @@ function App() {
       />
 
       <Container fluid>
-        <Row>
-          <Col>
-            <p>
-              Elegir idoma: <a href="#">Español</a> / <a href="#">日本語</a>
-            </p>
-          </Col>
-        </Row>
-
         {currentMenu?.map?.((item) => {
           return (
             <Row key={item.name} className="menuOption">
@@ -235,6 +242,7 @@ function App() {
           playerStatus={playerStatus}
           playPausePlayer={playPausePlayer}
           stopPlayer={stopPlayer}
+          activateScreensaver={activateScreensaver}
         />
       )}
 
