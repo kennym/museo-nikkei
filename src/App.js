@@ -176,6 +176,7 @@ function App() {
     },
     {
       name: "⬅️ Volver a menú principal",
+      color: "#e21e12",
       action: () => setCurrentMenu(MAIN_MENU),
     },
   ];
@@ -227,7 +228,11 @@ function App() {
           return (
             <Row key={item.name} className="menuOption">
               <Col>
-                <Button size="lg" onClick={item.action}>
+                <Button
+                  size="lg"
+                  onClick={item.action}
+                  style={{ backgroundColor: item.color }}
+                >
                   {item.name}
                 </Button>
               </Col>
@@ -235,6 +240,10 @@ function App() {
           );
         })}
       </Container>
+      <div className="credits">
+        <img src={LogoAsociacion} style={{ height: 100 }} alt="logo" />
+        <img src={LogoJica} style={{ height: 100 }} alt="logo" />
+      </div>
 
       {controlsVisible && (
         <PlayerControls
@@ -245,11 +254,6 @@ function App() {
           activateScreensaver={activateScreensaver}
         />
       )}
-
-      <div style={{ position: "absolute", bottom: 20, right: 20 }}>
-        <img src={LogoAsociacion} style={{ height: 100 }} alt="logo" />
-        <img src={LogoJica} style={{ height: 100 }} alt="logo" />
-      </div>
     </>
   );
 }
