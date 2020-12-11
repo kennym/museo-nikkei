@@ -32,7 +32,7 @@ const PlayerControls = ({
         {playerStatus === "paused" && (
           <FontAwesomeIcon
             icon={faPlay}
-            color="whlte"
+            color="white"
             className="mr-5"
             onClick={playPausePlayer}
           />
@@ -64,6 +64,7 @@ function App() {
   const [currentMenu, setCurrentMenu] = useState(null);
   const [controlsVisible, setControlsVisible] = useState(false);
   const [playerStatus, setPlayerStatus] = useState(null);
+  const [language, setLanguage] = useState("es");
 
   const activateScreensaver = async () => {
     await playSlideshow("/storage/pictures/screensaver/");
@@ -167,15 +168,80 @@ function App() {
 
   const MENU_INMIGRACION = [
     {
-      name: "📹 Documental",
+      name_es: "Documental",
+      name_jp: "ドキュメンタリー",
       action: () => playChapter("01"),
     },
     {
-      name: "🖼 Galería de Fotos",
+      name_es: "Galería de Fotos",
+      name_jp: "写真館",
       action: () => playSlideshow("/storage/pictures/01-inmigracion/"),
     },
     {
-      name: "⬅️ Volver a menú principal",
+      name_es: "⬅️ Volver",
+      name_jp: "⬅️ 戻る",
+      color: "#e21e12",
+      action: () => setCurrentMenu(MAIN_MENU),
+    },
+  ];
+
+  const MENU_2 = [
+    {
+      name_es: "Documental",
+      name_jp: "ドキュメンタリー",
+      action: () => playChapter("02"),
+    },
+    {
+      name_es: "Galería de Fotos",
+      name_jp: "写真館",
+      action: () => playSlideshow("/storage/pictures/02"),
+    },
+    {
+      name_es: "⬅️ Volver",
+      name_jp: "⬅️ 戻る",
+      color: "#e21e12",
+      action: () => setCurrentMenu(MAIN_MENU),
+    },
+  ];
+
+  const MENU_3 = [
+    {
+      name_es: "Documental",
+      name_jp: "ドキュメンタリー",
+      action: () => playChapter("03"),
+    },
+    {
+      name_es: "Galería de Fotos",
+      name_jp: "写真館",
+      action: () => playSlideshow("/storage/pictures/03"),
+    },
+    {
+      name_es: "⬅️ Volver",
+      name_jp: "⬅️ 戻る",
+      color: "#e21e12",
+      action: () => setCurrentMenu(MAIN_MENU),
+    },
+  ];
+
+  const MENU_4 = [
+    {
+      name_es: "Sketch 1",
+      name_jp: "動画 1",
+      action: () => playChapter("03"),
+    },
+    {
+      name_es: "Sketch 2",
+      name_jp: "動画 2",
+      action: () => playSlideshow("/storage/pictures/03"),
+    },
+    {
+      name_es: "Sketch 3",
+      name_jp: "動画 3",
+      action: () => playSlideshow("/storage/pictures/03"),
+    },
+    {
+      name_es: "⬅️ Volver",
+      name_jp: "⬅️ 戻る",
       color: "#e21e12",
       action: () => setCurrentMenu(MAIN_MENU),
     },
@@ -183,27 +249,33 @@ function App() {
 
   const MAIN_MENU = [
     {
-      name: "Inmigración a Paraguay",
+      name_es: "La migración japonesa",
+      name_jp: "移住の歴史",
       action: () => setCurrentMenu(MENU_INMIGRACION),
     },
     {
-      name: "Kouresha Shakai",
-      action: () => playChapter("02"),
+      name_es: "Asociación de adultos mayores",
+      name_jp: "高齢者社会",
+      action: () => setCurrentMenu(MENU_2),
     },
     {
-      name: "Lenguaje Nikkei",
-      action: () => playChapter("03"),
+      name_es: "Nihongo gakko",
+      name_jp: "日本語学校",
+      action: () => setCurrentMenu(MENU_3),
     },
     {
-      name: "Nihongogakko",
-      action: () => playChapter("04"),
+      name_es: "Lenguaje nikkei paraguayo",
+      name_jp: "パ•日系 言語",
+      action: () => setCurrentMenu(MENU_4),
     },
     {
-      name: "Música Nikkei",
+      name_es: "Taiko - Yosakoi",
+      name_jp: "太鼓 • よさこい",
       action: () => playChapter("05"),
     },
     {
-      name: "Taiko - Yosakoi",
+      name_es: "Música Nikkei",
+      name_jp: "日系 音楽",
       action: () => playChapter("06"),
     },
   ];
@@ -214,47 +286,84 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div>
       <div id="backgroundArt" />
 
-      <img
-        src={LogoCDINPY}
-        style={{ width: 600, marginBottom: 40 }}
-        alt="logo"
-      />
+      <div style={{ zIndex: 999, position: "relative" }}>
+        <div>
+          <img src={LogoCDINPY} className="logo" alt="logo" />
+        </div>
 
-      <Container fluid>
-        {currentMenu?.map?.((item) => {
-          return (
-            <Row key={item.name} className="menuOption">
-              <Col>
-                <Button
-                  size="lg"
-                  onClick={item.action}
-                  style={{ backgroundColor: item.color }}
-                >
-                  {item.name}
-                </Button>
-              </Col>
-            </Row>
-          );
-        })}
-      </Container>
-      <div className="credits">
-        <img src={LogoAsociacion} style={{ height: 100 }} alt="logo" />
-        <img src={LogoJica} style={{ height: 100 }} alt="logo" />
+        <div style={{ position: "fixed", top: 150, right: 20, zIndex: 9999 }}>
+          <h4 style={{ margin: 20 }}>
+            {language === "jp" ? "言語設定" : "Elegir idioma:"} <br />
+            <a
+              href="#"
+              onClick={() => setLanguage("es")}
+              style={{ color: "#120B79" }}
+            >
+              Español
+            </a>{" "}
+            /{" "}
+            <a
+              href="#"
+              onClick={() => setLanguage("jp")}
+              style={{ color: "red" }}
+            >
+              日本語
+            </a>
+          </h4>
+        </div>
+
+        <Container fluid>
+          {currentMenu?.map?.((item) => {
+            return (
+              <Row
+                key={item.name}
+                className="menuOption"
+                style={{ marginBottom: 15 }}
+              >
+                <Col>
+                  <Button
+                    size="sm"
+                    onClick={item.action}
+                    style={{
+                      backgroundColor: item.color || "#945324",
+                      opacity: 0.8,
+                      border: 0,
+                    }}
+                  >
+                    <span style={{ fontSize: language === "es" ? 22 : 35 }}>
+                      {language === "jp"
+                        ? item.name_jp?.toUpperCase?.()
+                        : item.name_es?.toUpperCase?.()}
+                    </span>
+                  </Button>
+                </Col>
+              </Row>
+            );
+          })}
+        </Container>
+        <div className="credits">
+          <img
+            src={LogoAsociacion}
+            style={{ height: 100, marginRight: 20 }}
+            alt="logo"
+          />
+          <img src={LogoJica} style={{ height: 100 }} alt="logo" />
+        </div>
+
+        {controlsVisible && (
+          <PlayerControls
+            onClose={() => setControlsVisible(false)}
+            playerStatus={playerStatus}
+            playPausePlayer={playPausePlayer}
+            stopPlayer={stopPlayer}
+            activateScreensaver={activateScreensaver}
+          />
+        )}
       </div>
-
-      {controlsVisible && (
-        <PlayerControls
-          onClose={() => setControlsVisible(false)}
-          playerStatus={playerStatus}
-          playPausePlayer={playPausePlayer}
-          stopPlayer={stopPlayer}
-          activateScreensaver={activateScreensaver}
-        />
-      )}
-    </>
+    </div>
   );
 }
 
