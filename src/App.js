@@ -9,7 +9,7 @@ import LogoCDINPY from "./assets/logo-cdinpy.png";
 import LogoJica from "./assets/logo-jica.png";
 import LogoAsociacion from "./assets/logo-asociacion.png";
 
-const HOST = "192.168.1.109";
+const HOST = "192.168.0.5";
 
 function sleep(ms) {
   return new Promise((res) => {
@@ -254,7 +254,7 @@ function App() {
       action: () => setCurrentMenu(MENU_INMIGRACION),
     },
     {
-      name_es: "Asociación de adultos mayores",
+      name_es: "KOUREISHA SHAKAI",
       name_jp: "高齢者社会",
       action: () => setCurrentMenu(MENU_2),
     },
@@ -347,10 +347,10 @@ function App() {
         <div className="credits">
           <img
             src={LogoAsociacion}
-            style={{ height: 100, marginRight: 20 }}
+            style={{ height: 80, marginRight: 20 }}
             alt="logo"
           />
-          <img src={LogoJica} style={{ height: 100 }} alt="logo" />
+          <img src={LogoJica} style={{ height: 80 }} alt="logo" />
         </div>
 
         {controlsVisible && (
