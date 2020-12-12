@@ -119,6 +119,7 @@ function App() {
     await stopAllActivePlayers();
     const con = await kodi(HOST, 9090);
 
+    await con.Application.SetVolume({ volume: 35 });
     await con.Player.Open({
       item: { directory: folderName },
       options: {
@@ -163,6 +164,7 @@ function App() {
       media: "video",
     });
 
+    await con.Application.SetVolume({ volume: 100 });
     await con.Player.Open({
       item: { file: movies?.files?.[0]?.file },
     });
@@ -319,15 +321,13 @@ function App() {
           <img src={LogoJica} style={{ height: 80 }} alt="logo" />
         </div>
 
-        {controlsVisible && (
-          <PlayerControls
-            onClose={() => setControlsVisible(false)}
-            playerStatus={playerStatus}
-            playPausePlayer={playPausePlayer}
-            stopPlayer={stopPlayer}
-            activateScreensaver={activateScreensaver}
-          />
-        )}
+        <PlayerControls
+          onClose={() => setControlsVisible(false)}
+          playerStatus={playerStatus}
+          playPausePlayer={playPausePlayer}
+          stopPlayer={stopPlayer}
+          activateScreensaver={activateScreensaver}
+        />
       </div>
     </div>
   );
