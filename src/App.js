@@ -9,7 +9,7 @@ import LogoCDINPY from "./assets/logo-cdinpy.png";
 import LogoJica from "./assets/logo-jica.png";
 import LogoAsociacion from "./assets/logo-asociacion.png";
 
-const HOST = "192.168.0.5";
+const HOST = "192.168.0.2";
 
 function sleep(ms) {
   return new Promise((res) => {
@@ -68,12 +68,6 @@ function App() {
 
   const activateScreensaver = async () => {
     await playSlideshow("/storage/pictures/screensaver/");
-
-    // const con = await kodi(HOST, 9090);
-    // const players = await con.Player.GetActivePlayers();
-    // await Promise.all(
-    //   players.map((player) => con.GUI.ActivateWindow({ window: "screensaver" }))
-    // );
   };
 
   const initializeConnection = useCallback(async () => {
@@ -127,9 +121,17 @@ function App() {
 
     await con.Player.Open({
       item: { directory: folderName },
+      options: {
+        shuffled: true,
+        repeat: "all",
+      },
     });
     await con.Player.Open({
       item: { directory: "/storage/music/screensaver" },
+      options: {
+        shuffled: true,
+        repeat: "all",
+      },
     });
   };
 
@@ -166,62 +168,24 @@ function App() {
     });
   };
 
-  const MENU_INMIGRACION = [
-    {
-      name_es: "Documental",
-      name_jp: "ドキュメンタリー",
-      action: () => playChapter("01"),
-    },
-    // {
-    //   name_es: "Galería de Fotos",
-    //   name_jp: "写真館",
-    //   action: () => playSlideshow("/storage/pictures/01-inmigracion/"),
-    // },
-    {
-      name_es: "⬅️ Volver",
-      name_jp: "⬅️ 戻る",
-      color: "#e21e12",
-      action: () => setCurrentMenu(MAIN_MENU),
-    },
-  ];
-
-  const MENU_2 = [
-    {
-      name_es: "Documental",
-      name_jp: "ドキュメンタリー",
-      action: () => playChapter("02"),
-    },
-    // {
-    //   name_es: "Galería de Fotos",
-    //   name_jp: "写真館",
-    //   action: () => playSlideshow("/storage/pictures/02"),
-    // },
-    {
-      name_es: "⬅️ Volver",
-      name_jp: "⬅️ 戻る",
-      color: "#e21e12",
-      action: () => setCurrentMenu(MAIN_MENU),
-    },
-  ];
-
-  const MENU_3 = [
-    {
-      name_es: "Documental",
-      name_jp: "ドキュメンタリー",
-      action: () => playChapter("03"),
-    },
-    // {
-    //   name_es: "Galería de Fotos",
-    //   name_jp: "写真館",
-    //   action: () => playSlideshow("/storage/pictures/03"),
-    // },
-    {
-      name_es: "⬅️ Volver",
-      name_jp: "⬅️ 戻る",
-      color: "#e21e12",
-      action: () => setCurrentMenu(MAIN_MENU),
-    },
-  ];
+  // const MENU_INMIGRACION = [
+  //   {
+  //     name_es: "Documental",
+  //     name_jp: "ドキュメンタリー",
+  //     action: () => playChapter("01"),
+  //   },
+  //   // {
+  //   //   name_es: "Galería de Fotos",
+  //   //   name_jp: "写真館",
+  //   //   action: () => playSlideshow("/storage/pictures/01-inmigracion/"),
+  //   // },
+  //   {
+  //     name_es: "⬅️ Volver",
+  //     name_jp: "⬅️ 戻る",
+  //     color: "#e21e12",
+  //     action: () => setCurrentMenu(MAIN_MENU),
+  //   },
+  // ];
 
   const MENU_4 = [
     {
@@ -318,10 +282,10 @@ function App() {
         </div>
 
         <Container fluid>
-          {currentMenu?.map?.((item) => {
+          {currentMenu?.map?.((item, idx) => {
             return (
               <Row
-                key={item.name}
+                key={idx}
                 className="menuOption"
                 style={{ marginBottom: 15 }}
               >
