@@ -170,25 +170,6 @@ function App() {
     });
   };
 
-  // const MENU_INMIGRACION = [
-  //   {
-  //     name_es: "Documental",
-  //     name_jp: "ドキュメンタリー",
-  //     action: () => playChapter("01"),
-  //   },
-  //   // {
-  //   //   name_es: "Galería de Fotos",
-  //   //   name_jp: "写真館",
-  //   //   action: () => playSlideshow("/storage/pictures/01-inmigracion/"),
-  //   // },
-  //   {
-  //     name_es: "⬅️ Volver",
-  //     name_jp: "⬅️ 戻る",
-  //     color: "#e21e12",
-  //     action: () => setCurrentMenu(MAIN_MENU),
-  //   },
-  // ];
-
   const MENU_4 = [
     {
       name_es: "Sketch 1",
