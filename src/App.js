@@ -172,11 +172,11 @@ function App() {
       name_jp: "ドキュメンタリー",
       action: () => playChapter("01"),
     },
-    {
-      name_es: "Galería de Fotos",
-      name_jp: "写真館",
-      action: () => playSlideshow("/storage/pictures/01-inmigracion/"),
-    },
+    // {
+    //   name_es: "Galería de Fotos",
+    //   name_jp: "写真館",
+    //   action: () => playSlideshow("/storage/pictures/01-inmigracion/"),
+    // },
     {
       name_es: "⬅️ Volver",
       name_jp: "⬅️ 戻る",
@@ -191,11 +191,11 @@ function App() {
       name_jp: "ドキュメンタリー",
       action: () => playChapter("02"),
     },
-    {
-      name_es: "Galería de Fotos",
-      name_jp: "写真館",
-      action: () => playSlideshow("/storage/pictures/02"),
-    },
+    // {
+    //   name_es: "Galería de Fotos",
+    //   name_jp: "写真館",
+    //   action: () => playSlideshow("/storage/pictures/02"),
+    // },
     {
       name_es: "⬅️ Volver",
       name_jp: "⬅️ 戻る",
@@ -210,11 +210,11 @@ function App() {
       name_jp: "ドキュメンタリー",
       action: () => playChapter("03"),
     },
-    {
-      name_es: "Galería de Fotos",
-      name_jp: "写真館",
-      action: () => playSlideshow("/storage/pictures/03"),
-    },
+    // {
+    //   name_es: "Galería de Fotos",
+    //   name_jp: "写真館",
+    //   action: () => playSlideshow("/storage/pictures/03"),
+    // },
     {
       name_es: "⬅️ Volver",
       name_jp: "⬅️ 戻る",
@@ -227,17 +227,16 @@ function App() {
     {
       name_es: "Sketch 1",
       name_jp: "動画 1",
-      action: () => playChapter("03"),
     },
     {
       name_es: "Sketch 2",
       name_jp: "動画 2",
-      action: () => playSlideshow("/storage/pictures/03"),
+      action: () => playChapter("03/02"),
     },
     {
       name_es: "Sketch 3",
       name_jp: "動画 3",
-      action: () => playSlideshow("/storage/pictures/03"),
+      action: () => playChapter("03/03"),
     },
     {
       name_es: "⬅️ Volver",
@@ -251,17 +250,19 @@ function App() {
     {
       name_es: "La migración japonesa",
       name_jp: "移住の歴史",
-      action: () => setCurrentMenu(MENU_INMIGRACION),
+      // action: () => setCurrentMenu(MENU_INMIGRACION),
+      action: () => playChapter("01"),
     },
     {
       name_es: "KOUREISHA SHAKAI",
       name_jp: "高齢者社会",
-      action: () => setCurrentMenu(MENU_2),
+      // action: () => setCurrentMenu(MENU_2),
+      action: () => playChapter("02"),
     },
     {
       name_es: "Nihongo gakko",
       name_jp: "日本語学校",
-      action: () => setCurrentMenu(MENU_3),
+      action: () => playChapter("03"),
     },
     {
       name_es: "Lenguaje nikkei paraguayo",
@@ -271,6 +272,7 @@ function App() {
     {
       name_es: "Taiko - Yosakoi",
       name_jp: "太鼓 • よさこい",
+      // action: () => setCurrentMenu(MENU_5),
       action: () => playChapter("05"),
     },
     {
