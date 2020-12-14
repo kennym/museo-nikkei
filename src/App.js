@@ -174,16 +174,17 @@ function App() {
     {
       name_es: "Sketch 1",
       name_jp: "動画 1",
+      action: () => playChapter("0401"),
     },
     {
       name_es: "Sketch 2",
       name_jp: "動画 2",
-      action: () => playChapter("03/02"),
+      action: () => playChapter("0402"),
     },
     {
       name_es: "Sketch 3",
       name_jp: "動画 3",
-      action: () => playChapter("03/03"),
+      action: () => playChapter("0403"),
     },
     {
       name_es: "⬅️ Volver",
