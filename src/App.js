@@ -112,7 +112,7 @@ function App() {
     await stopAllActivePlayers();
     const con = await kodi(HOST, 9090);
 
-    await con.Application.SetVolume({ volume: 35 });
+    await con.Application.SetVolume({ volume: 50 });
     await con.Player.Open({
       item: { directory: folderName },
       options: {
