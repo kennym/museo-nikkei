@@ -9,7 +9,7 @@ import LogoCDINPY from "./assets/logo-cdinpy.png";
 import LogoJica from "./assets/logo-jica.png";
 import LogoAsociacion from "./assets/logo-asociacion.png";
 
-const HOST = "192.168.0.2";
+const HOST = "192.168.0.5";
 
 function sleep(ms) {
   return new Promise((res) => {
@@ -45,16 +45,14 @@ const PlayerControls = ({
             onClick={playPausePlayer}
           />
         )}
-        {playerStatus === "playing" && (
-          <FontAwesomeIcon
-            icon={faStop}
-            color="white"
-            onClick={async () => {
-              await stopPlayer();
-              await activateScreensaver();
-            }}
-          />
-        )}
+        <FontAwesomeIcon
+          icon={faStop}
+          color="white"
+          onClick={async () => {
+            await stopPlayer();
+            await activateScreensaver();
+          }}
+        />
       </div>
     </div>
   );
@@ -62,7 +60,6 @@ const PlayerControls = ({
 
 function App() {
   const [currentMenu, setCurrentMenu] = useState(null);
-  const [controlsVisible, setControlsVisible] = useState(false);
   const [playerStatus, setPlayerStatus] = useState(null);
   const [language, setLanguage] = useState("es");
 
@@ -74,26 +71,22 @@ function App() {
     const con = await kodi(HOST, 9090);
 
     con.notification("Player.OnPause", () => {
-      setControlsVisible(true);
       setPlayerStatus("playing");
     });
 
     con.notification("Player.OnResume", () => {
-      setControlsVisible(true);
       setPlayerStatus("playing");
       console.log("Resumed");
     });
 
     con.notification("Player.OnAVStart", () => {
       console.log("OnAVStart");
-      setControlsVisible(true);
       setPlayerStatus("playing");
     });
 
     con.notification("Player.OnStop", () => {
       console.log("OnStop");
       setPlayerStatus("stopped");
-      setControlsVisible(false);
       sleep(5000);
     });
 
@@ -304,7 +297,6 @@ function App() {
         </div>
 
         <PlayerControls
-          onClose={() => setControlsVisible(false)}
           playerStatus={playerStatus}
           playPausePlayer={playPausePlayer}
           stopPlayer={stopPlayer}
