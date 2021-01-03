@@ -2,7 +2,13 @@ import kodi from "kodi-websocket";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faPause, faStop } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlay,
+  faPause,
+  faStop,
+  faVolumeMute,
+  faVolumeUp,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./App.scss";
 import LogoCDINPY from "./assets/logo-cdinpy.png";
@@ -62,6 +68,8 @@ function App() {
   const [currentMenu, setCurrentMenu] = useState(null);
   const [playerStatus, setPlayerStatus] = useState(null);
   const [language, setLanguage] = useState("es");
+  const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(50);
 
   const activateScreensaver = async () => {
     await playSlideshow("/storage/pictures/screensaver/");
@@ -69,6 +77,12 @@ function App() {
 
   const initializeConnection = useCallback(async () => {
     const con = await kodi(HOST, 9090);
+
+    const properties = await con.Application.GetProperties({
+      properties: ["muted"],
+    });
+
+    setMuted(properties?.muted);
 
     con.notification("Player.OnPause", () => {
       setPlayerStatus("playing");
@@ -113,6 +127,7 @@ function App() {
     const con = await kodi(HOST, 9090);
 
     await con.Application.SetVolume({ volume: 50 });
+    setVolume(50);
     await con.Player.Open({
       item: { directory: folderName },
       options: {
@@ -158,9 +173,32 @@ function App() {
     });
 
     await con.Application.SetVolume({ volume: 100 });
+    setVolume(100);
     await con.Player.Open({
       item: { file: movies?.files?.[0]?.file },
     });
+  };
+
+  const toggleMute = async () => {
+    const con = await kodi(HOST, 9090);
+    const properties = await con.Application.GetProperties({
+      properties: ["muted"],
+    });
+
+    if (properties?.muted) {
+      setMuted(false);
+      await con.Application.SetMute({ mute: false });
+    } else {
+      setMuted(true);
+      await con.Application.SetMute({ mute: true });
+    }
+  };
+
+  const onVolumeChange = async (event) => {
+    console.log(event.target.value);
+    setVolume(event.target.value);
+    const con = await kodi(HOST, 9090);
+    await con.Application.SetVolume({ volume: Number(event.target.value) });
   };
 
   const MENU_4 = [
@@ -235,6 +273,32 @@ function App() {
       <div style={{ zIndex: 999, position: "relative" }}>
         <div>
           <img src={LogoCDINPY} className="logo" alt="logo" />
+        </div>
+
+        <div
+          style={{
+            position: "fixed",
+            top: 20,
+            right: 20,
+          }}
+        >
+          <input
+            type="range"
+            id="volume"
+            name="volume"
+            min="0"
+            max="100"
+            value={volume}
+            onInput={onVolumeChange}
+          />
+          <label labelfor="volume" style={{ paddingLeft: 10 }}>
+            <FontAwesomeIcon
+              icon={muted ? faVolumeMute : faVolumeUp}
+              size="2x"
+              color={muted ? "red" : "white"}
+              onClick={toggleMute}
+            />
+          </label>
         </div>
 
         <div style={{ position: "fixed", top: 150, right: 20, zIndex: 9999 }}>

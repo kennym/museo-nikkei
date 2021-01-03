@@ -21,7 +21,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "deploy": "react-scripts build && ssh pi@192.168.0.4 'rm -r /home/pi/build' && scp -r build/* pi@192.168.0.4:/home/pi/build/",
+    "deploy": "react-scripts build && ssh pi@192.168.0.4 'rm -rf /home/pi/build && mkdir /home/pi/build' && scp -r build/* pi@192.168.0.4:/home/pi/build/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
