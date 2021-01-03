@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlay,
   faPause,
   faStop,
   faVolumeMute,
@@ -35,22 +34,12 @@ const PlayerControls = ({
   return (
     <div className="playerControls">
       <div className="controls">
-        {playerStatus === "paused" && (
-          <FontAwesomeIcon
-            icon={faPlay}
-            color="white"
-            className="mr-5"
-            onClick={playPausePlayer}
-          />
-        )}
-        {playerStatus === "playing" && (
-          <FontAwesomeIcon
-            icon={faPause}
-            color="white"
-            className="mr-5"
-            onClick={playPausePlayer}
-          />
-        )}
+        <FontAwesomeIcon
+          icon={faPause}
+          color="white"
+          className="mr-5"
+          onClick={playPausePlayer}
+        />
         <FontAwesomeIcon
           icon={faStop}
           color="white"
