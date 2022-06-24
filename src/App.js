@@ -190,6 +190,35 @@ function App() {
     await con.Application.SetVolume({ volume: Number(event.target.value) });
   };
 
+  const MENU_2 = [
+    {
+      name_es: "Koureisha Shakai",
+      name_jp: "高齢者社会",
+      action: () => playChapter("0201"),
+    },
+    {
+      name_es: "Documental Memorias Parte 1",
+      name_jp: "思い出ドキュメンタリー 1",
+      action: () => playChapter("0202"),
+    },
+    {
+      name_es: "Documental Memorias Parte 2",
+      name_jp: "思い出ドキュメンタリー 2",
+      action: () => playChapter("0203"),
+    },
+    {
+      name_es: "Documental Memorias Parte 3",
+      name_jp: "思い出ドキュメンタリー 3",
+      action: () => playChapter("0204"),
+    },
+    {
+      name_es: "⬅️ Volver",
+      name_jp: "⬅️ 戻る",
+      color: "#e21e12",
+      action: () => setCurrentMenu(MAIN_MENU),
+    },
+  ];
+
   const MENU_4 = [
     {
       name_es: "Sketch 1",
@@ -224,8 +253,8 @@ function App() {
     {
       name_es: "KOUREISHA SHAKAI",
       name_jp: "高齢者社会",
-      // action: () => setCurrentMenu(MENU_2),
-      action: () => playChapter("02"),
+      action: () => setCurrentMenu(MENU_2),
+      // action: () => playChapter("02"),
     },
     {
       name_es: "Nihongo gakko",
