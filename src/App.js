@@ -1,18 +1,20 @@
+import "./App.scss";
+
 import kodi from "kodi-websocket";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faPause,
   faStop,
   faVolumeMute,
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./App.scss";
+import LogoAsociacion from "./assets/logo-asociacion.png";
 import LogoCDINPY from "./assets/logo-cdinpy.png";
 import LogoJica from "./assets/logo-jica.png";
-import LogoAsociacion from "./assets/logo-asociacion.png";
 
 const HOST = "192.168.0.5";
 
@@ -243,6 +245,19 @@ function App() {
     },
   ];
 
+  const MENU_8 = [
+    {
+      name_es: "Gracias Paraguay",
+      name_jp: "ありがとうパラグアイ",
+      action: () => playChapter("0701"),
+    },
+    {
+      name_es: "⬅️ Volver",
+      name_jp: "⬅️ 戻る",
+      color: "#e21e12",
+      action: () => setCurrentMenu(MAIN_MENU),
+    },
+  ];
   const MAIN_MENU = [
     {
       name_es: "La migración japonesa",
@@ -276,6 +291,16 @@ function App() {
       name_es: "Música Nikkei",
       name_jp: "日系 音楽",
       action: () => playChapter("06"),
+    },
+    {
+      name_es: "Fujinbu",
+      name_jp: "婦人部",
+      action: () => playChapter("0801"),
+    },
+    {
+      name_es: "Perspectiva Paraguaya",
+      name_jp: "パラグアイからの視点",
+      action: () => setCurrentMenu(MENU_8),
     },
   ];
 
